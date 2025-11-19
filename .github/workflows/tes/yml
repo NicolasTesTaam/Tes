@@ -10,7 +10,7 @@ ci:
   steps:
     -name: Checkout code
     user: actions/checkout@v4
-    -name: Run Dumm Test (Placeholder)
+    -name: Run Dummy Test (Placeholder)
     run: echo "Code check Passes"
 deploy:
   needs: ci
