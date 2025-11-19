@@ -15,7 +15,7 @@ job:
   deploy:
     needs: ci
     runs-on: ubuntu-latest
-    permissions:
+permissions:
       Pages: write
       id-token: write
     steps:
