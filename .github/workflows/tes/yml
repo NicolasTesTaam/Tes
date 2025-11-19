@@ -28,7 +28,7 @@ deploy:
   with:
     path: .
   -name: Deploy to GitHub Pages
-  id: deploument
+  id: deployment
   user : actions/deploy-pages@v4
   -name: Deployment Successful
   if: success()
