@@ -1,38 +1,55 @@
-name: CI/CD
-   
+name: CI/CD Workflow Example
+# Kích hoạt workflow khi có push lên nhánh main
 on:
   push:
     branches:
       - main
-job:
+
+# Key jobs là BẮT BUỘC để định nghĩa các công việc
+jobs:
+  # Công việc 1: CI (Continuous Integration)
   ci:
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout code
-      user: actions/checkout@v4
-      -name: Run Dummy Test (Placeholder)
-      run: echo "Code check Passes"
+      # - name và uses cần thụt lề ngang hàng
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Run Dummy Test (Placeholder)
+        run: echo "Code check Passes"
+
+  # Công việc 2: Deploy (Continuous Deployment)
   deploy:
+    # Chỉ chạy sau khi 'ci' hoàn thành
     needs: ci
     runs-on: ubuntu-latest
-permissions:
-      Pages: write
+    
+    # Permissions phải ngang hàng với runs-on và steps trong job deploy
+    permissions:
+      pages: write
       id-token: write
+      
+    # Bắt đầu danh sách các bước
     steps:
-    -name: Checkout code
-    uses: actions/checkout@v4
-    -name: Setup Pages
-    uses: actions/configure-pages@v4
-    -name: Upload to Artifacts
-    uses: actions/upload-pages-artifact@v3
-    with:
-      path: .
-    -name: Deploy to GitHub Pages
-    id: deployment
-    user : actions/deploy-pages@v4
-    -name: Deployment Successful
-    if: success()
-    run: echo "Deployed Successfully"
-
-
- 
+      - name: Checkout code
+        # Đúng là uses, không phải user
+        uses: actions/checkout@v4
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload Artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Đường dẫn tới nội dung cần deploy
+          path: .
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        # Đúng là uses, không phải user
+        uses: actions/deploy-pages@v4
+        
+      - name: Deployment Successful
+        # if cần thụt lề ngang hàng với name, run, uses, ...
+        if: success()
+        run: echo "Deployed Successfully"
